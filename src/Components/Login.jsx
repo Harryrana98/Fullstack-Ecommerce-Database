@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 
 function Login() {
   const [form, setForm] = useState({ email: "", password: "", role: "user" });
@@ -11,28 +12,44 @@ function Login() {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+const handleLogin = async (e) => {
+  e.preventDefault();
 
-    try {
-      const response = await axios.post(
-        "https://ecommerce-api-8ga2.onrender.com/api/user/login",
-        form,
-        { withCredentials: true }
-      );
+  try {
+    const response = await axios.post(
+      "https://ecommerce-api-8ga2.onrender.com/api/user/login",
+      form,
+      { withCredentials: true }
+    );
 
-      console.log("Successfully Logged In", response.data);
-      if (response.data) {
-        setForm({ email: "", password: "" });
+    if (response.data) {
+      setForm({ email: "", password: "" });
+
+      toast.success("Login Successful", {
+        position: "bottom-right",
+        autoClose: 1500,
+      });
+
+      // Wait for toast to show before navigating
+      setTimeout(() => {
         navigate("/");
-      }
-    } catch (error) {
-      console.log("Login Failed", error);
+      }, 1600);
     }
-  };
+  } catch (err) {
+    toast.error(
+      err.response?.data?.message || "Login Failed. Please check credentials.",
+      {
+        position: "bottom-right",
+        autoClose: 3000,
+      }
+    );
+  }
+};
+
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-white to-purple-100 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-white to-purple-100 px-4" >
+      <ToastContainer />
       <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-blue-100">
         <h2 className="text-3xl font-bold text-center text-blue-700 mb-6 tracking-wide">
           Welcome Back 👋

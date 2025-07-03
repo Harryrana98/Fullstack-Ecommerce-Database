@@ -24,7 +24,8 @@ function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    if (form.password !== confirmPassword) {
+    // Password match check
+    if (form.password.trim() !== confirmPassword.trim()) {
       toast.error("Passwords do not match!");
       return;
     }
@@ -36,9 +37,12 @@ function Register() {
         { withCredentials: true }
       );
 
-      toast.success("Registered successfully");
-
       if (response.data) {
+        toast.success("Registered Successfully", {
+          position: "bottom-right",
+          autoClose: 3000,
+        });
+
         setForm({
           firstname: "",
           lastname: "",
@@ -50,8 +54,14 @@ function Register() {
         setConfirmPassword("");
         navigate("/login");
       }
-    } catch (error) {
-      toast.error("Registration failed. Please try again.");
+    } catch (err) {
+      const message =
+        err.response?.data?.message ||
+        "Registration failed. Please try again.";
+      toast.error(message, {
+        position: "bottom-right",
+        autoClose: 3000,
+      });
     }
   };
 
@@ -66,7 +76,9 @@ function Register() {
         <form onSubmit={handleRegister} className="space-y-5">
           <div className="flex gap-4">
             <div className="w-1/2">
-              <label className="block text-sm font-medium text-gray-700">First Name</label>
+              <label className="block text-sm font-medium text-gray-700">
+                First Name
+              </label>
               <input
                 type="text"
                 name="firstname"
@@ -78,7 +90,9 @@ function Register() {
               />
             </div>
             <div className="w-1/2">
-              <label className="block text-sm font-medium text-gray-700">Last Name</label>
+              <label className="block text-sm font-medium text-gray-700">
+                Last Name
+              </label>
               <input
                 type="text"
                 name="lastname"
@@ -92,7 +106,9 @@ function Register() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">Gender</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Gender
+            </label>
             <select
               name="gender"
               value={form.gender}
@@ -108,7 +124,9 @@ function Register() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">Email</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Email
+            </label>
             <input
               type="email"
               name="email"
@@ -121,7 +139,9 @@ function Register() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">Password</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Password
+            </label>
             <input
               type="password"
               name="password"
@@ -134,7 +154,9 @@ function Register() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">Confirm Password</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Confirm Password
+            </label>
             <input
               type="password"
               name="confirmPassword"
