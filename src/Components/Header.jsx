@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { IoMenu, IoClose } from "react-icons/io5";
 import axios from "axios";
 import { LuLogIn, LuLogOut } from "react-icons/lu";
+import { toast } from "react-toastify";
 
 function Header() {
   const { input, setInput, Cart } = useContext(UserContext);
@@ -40,6 +41,11 @@ function Header() {
         { withCredentials: true }
       );
       setUser(null);
+      toast.error("Logout Successful", {
+        position: "bottom-right",
+        autoClose: 1500,
+        
+      });
       navigate("/login");
     } catch (err) {
       console.error("Logout failed", err);
@@ -82,12 +88,31 @@ function Header() {
           }`}
         >
           <ul className="flex flex-col md:flex-row gap-4 md:gap-6 text-gray-800 font-medium">
-            <li><Link to="/" className="hover:text-blue-600">Home</Link></li>
-            <li><Link to="/about" className="hover:text-blue-600">About</Link></li>
-            <li><Link to="/contact" className="hover:text-blue-600">Contact</Link></li>
-            <li><Link to="/blog" className="hover:text-blue-600">Blog</Link></li>
+            <li>
+              <Link to="/" className="hover:text-blue-600">
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link to="/about" className="hover:text-blue-600">
+                About
+              </Link>
+            </li>
+            <li>
+              <Link to="/contact" className="hover:text-blue-600">
+                Contact
+              </Link>
+            </li>
+            <li>
+              <Link to="/blog" className="hover:text-blue-600">
+                Blog
+              </Link>
+            </li>
             <li className="relative">
-              <Link to="/cart" className="hover:text-blue-600 flex items-center">
+              <Link
+                to="/cart"
+                className="hover:text-blue-600 flex items-center"
+              >
                 Cart
                 <span className="ml-1 bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full font-semibold">
                   {Cart}
@@ -96,26 +121,26 @@ function Header() {
             </li>
 
             {/* Login/Logout */}
-          <li>
-                {loading ? null : user ? (
+            <li>
+              {loading ? null : user ? (
+                <button
+                  className="p-2 text-gray-700 hover:text-red-600 hover:bg-gray-100 rounded-lg transition-all duration-200"
+                  onClick={handleLogout}
+                  title="Logout"
+                >
+                  <LuLogOut size={23} />
+                </button>
+              ) : (
+                <Link to="/login">
                   <button
-                    className="p-2 text-gray-700 hover:text-red-600 hover:bg-gray-100 rounded-lg transition-all duration-200"
-                    onClick={handleLogout}
-                    title="Logout"
+                    className="p-2 text-gray-700 hover:text-blue-600 hover:bg-gray-100 rounded-lg transition-all duration-200"
+                    title="Login"
                   >
-                    <LuLogOut size={23} />
+                    <LuLogIn size={23} />
                   </button>
-                ) : (
-                  <Link to="/login">
-                    <button
-                      className="p-2 text-gray-700 hover:text-blue-600 hover:bg-gray-100 rounded-lg transition-all duration-200"
-                      title="Login"
-                    >
-                      <LuLogIn size={23} />
-                    </button>
-                  </Link>
-                )}
-              </li>
+                </Link>
+              )}
+            </li>
           </ul>
         </nav>
       </div>
