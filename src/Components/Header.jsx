@@ -12,6 +12,7 @@ function Header() {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
 
+  // Fetch current user
   useEffect(() => {
     async function fetchUser() {
       try {
@@ -20,7 +21,7 @@ function Header() {
           { withCredentials: true }
         );
         setUser(response.data);
-      } catch {
+      } catch (err) {
         setUser(null);
       } finally {
         setLoading(false);
@@ -29,6 +30,7 @@ function Header() {
     fetchUser();
   }, []);
 
+  // Logout function
   async function handleLogout(e) {
     e.preventDefault();
     try {
@@ -52,6 +54,16 @@ function Header() {
           <Link to="/">🛒 Ecommerce</Link>
         </div>
 
+        {/* Hamburger - Mobile Only */}
+        <div className="md:hidden">
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="text-3xl text-gray-700 focus:outline-none"
+          >
+            {isOpen ? <IoClose /> : <IoMenu />}
+          </button>
+        </div>
+
         {/* Search - Desktop */}
         <div className="hidden md:flex w-1/3 mx-4">
           <input
@@ -63,20 +75,10 @@ function Header() {
           />
         </div>
 
-        {/* Hamburger - Mobile */}
-        <div className="md:hidden">
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="text-3xl text-gray-700 focus:outline-none"
-          >
-            {isOpen ? <IoClose /> : <IoMenu />}
-          </button>
-        </div>
-
-        {/* Nav Menu */}
+        {/* Navigation */}
         <nav
-          className={`absolute top-20 left-0 w-full md:static md:flex md:items-center md:w-auto bg-white md:bg-transparent px-6 py-4 md:p-0 z-50 shadow-md md:shadow-none transition-all duration-300 ${
-            isOpen ? "block" : "hidden md:flex"
+          className={`absolute top-20 left-0 w-full bg-white md:static md:flex md:items-center md:space-x-8 md:w-auto md:bg-transparent px-6 py-4 md:p-0 transition-all duration-300 ease-in-out shadow-md md:shadow-none ${
+            isOpen ? "block" : "hidden"
           }`}
         >
           <ul className="flex flex-col md:flex-row gap-4 md:gap-6 text-gray-800 font-medium">
@@ -92,12 +94,13 @@ function Header() {
                 </span>
               </Link>
             </li>
-            {!loading && (
-              <li>
-                {user ? (
+
+            {/* Login/Logout */}
+          <li>
+                {loading ? null : user ? (
                   <button
+                    className="p-2 text-gray-700 hover:text-red-600 hover:bg-gray-100 rounded-lg transition-all duration-200"
                     onClick={handleLogout}
-                    className="p-2 text-gray-700 hover:text-red-600 hover:bg-gray-100 rounded-lg transition"
                     title="Logout"
                   >
                     <LuLogOut size={23} />
@@ -105,7 +108,7 @@ function Header() {
                 ) : (
                   <Link to="/login">
                     <button
-                      className="p-2 text-gray-700 hover:text-blue-600 hover:bg-gray-100 rounded-lg transition"
+                      className="p-2 text-gray-700 hover:text-blue-600 hover:bg-gray-100 rounded-lg transition-all duration-200"
                       title="Login"
                     >
                       <LuLogIn size={23} />
@@ -113,12 +116,11 @@ function Header() {
                   </Link>
                 )}
               </li>
-            )}
           </ul>
         </nav>
       </div>
 
-      {/* Search - Mobile */}
+      {/* Mobile Search */}
       <div className="px-6 md:hidden mt-2">
         <input
           type="text"
