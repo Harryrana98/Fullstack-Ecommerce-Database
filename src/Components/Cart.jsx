@@ -78,7 +78,7 @@ function Cart() {
   }
 
  return (
-  <div className="max-w-6xl mx-auto px-4 py-12">
+  <div className="max-w-6xl mx-auto mt-15 px-4 py-12">
     <h1 className="text-4xl font-bold text-blue-700 mb-10 text-center">🛍️ Your Shopping Cart</h1>
 
     <div className="space-y-8">
