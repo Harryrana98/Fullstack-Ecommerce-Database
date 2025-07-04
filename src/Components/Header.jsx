@@ -53,7 +53,7 @@ function Header() {
   }
 
   return (
-    <header className="bg-gradient-to-r from-blue-50 via-white to-blue-50 shadow-lg">
+    <header className="bg-gradient-to-r from-blue-50 via-white to-blue-50 shadow-lg fixed top-0 left-0 right-0 z-99">
       <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo */}
         <div className="text-2xl font-bold text-blue-600">

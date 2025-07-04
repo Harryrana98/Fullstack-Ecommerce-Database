@@ -5,6 +5,7 @@ import { UserContext } from "./UserContext";
 import { HiMiniShoppingCart } from "react-icons/hi2";
 import { FaHeart, FaStar, FaArrowLeft } from "react-icons/fa";
 import { PiCurrencyDollarBold } from "react-icons/pi";
+import { toast, ToastContainer } from "react-toastify";
 
 function Singleproject() {
   const { id } = useParams();
@@ -56,7 +57,7 @@ function Singleproject() {
     fetchUser();
   }, []);
 
-  function handleAddCart() {
+ async function handleAddCart() {
     if (!currentUser) {
       navigate(`/login?referer=${encodeURIComponent(location.pathname)}`);
       return;
@@ -66,7 +67,20 @@ function Singleproject() {
       setDisabled(true);
       setCart(Cart + 1);
       setAddtocartid([...addtocartid, id]);
-      navigate("/cart");
+      // navigate("/cart");
+
+      try{
+        const add= await axios.post("https://ecommerce-api-8ga2.onrender.com/api/cart/add",{id},{withCredentials:true})
+        console.log(id);
+        console.log(add);
+        
+        toast.success("Added to cart successfull ")
+        
+        navigate("/cart")
+      } catch(error){
+        console.log("error",error);
+        
+      }
     }
   }
 
@@ -83,6 +97,7 @@ function Singleproject() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-100 via-white to-purple-100 flex items-center justify-center">
+        <ToastContainer/>
         <div className="flex flex-col items-center space-y-4">
           <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
           <p className="text-gray-600 font-medium">Loading product...</p>

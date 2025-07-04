@@ -1,7 +1,5 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-// import { auth } from "./Firebase";
-// import { onAuthStateChanged } from 'firebase/auth';
 import { Navigate, useNavigate } from 'react-router-dom';
 
 function ProtectedRoute({ children }) {

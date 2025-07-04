@@ -1,12 +1,9 @@
-// import React from 'react'
-// import {auth} from "./Firebase"
-// function Logout() {
-       
-//   return (
-//     <div>
+import React from 'react'
 
-//     </div>
-//   )
-// }
+function Logout() {
+  return (
+    <div>Logout</div>
+  )
+}
 
-// export default Logout
+export default Logout
