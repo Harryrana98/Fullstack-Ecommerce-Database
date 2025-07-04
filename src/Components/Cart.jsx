@@ -71,8 +71,8 @@ function Cart() {
 
   if (addtocartid.length === 0) {
     return (
-      <h1 className="text-center text-2xl font-semibold mt-16 text-gray-700">
-        🛒 Cart is empty
+      <h1 className="text-center text-2xl font-semibold mt-30 text-gray-700">
+        🛒 Cart is Empty
       </h1>
     );
   }
